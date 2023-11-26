@@ -28,7 +28,7 @@ final class CollectionViewController: UICollectionViewController {
         collectionView.register(CustomCellPhotos.self, forCellWithReuseIdentifier: "cell")
         title = "Photos"
         
-        NetworkService().getData(request: NetworkService.photosRequest)
+        NetworkService().getData(request: .photos)
     }
     
     private func setConstraints() {

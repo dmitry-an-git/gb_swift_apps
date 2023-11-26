@@ -13,7 +13,7 @@ final class SecondTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.backgroundColor = .white
         title = "Groups"
-        NetworkService().getData(request: NetworkService.groupsRequest)
+        NetworkService().getData(request: .groups)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

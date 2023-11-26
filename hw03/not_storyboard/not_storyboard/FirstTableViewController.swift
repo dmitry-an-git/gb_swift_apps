@@ -13,7 +13,7 @@ final class FirstTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.backgroundColor = .white
         title = "Friends"
-        NetworkService().getData(request: NetworkService.friendsRequest)
+        NetworkService().getData(request: .friends)
         
     }
     

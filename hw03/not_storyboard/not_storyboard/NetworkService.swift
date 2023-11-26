@@ -13,6 +13,14 @@ final class NetworkService {
     static var token = ""
     static var userID = ""
     
+    
+    enum Requests {
+        case friends
+        case groups
+        case photos
+    }
+    
+
     static var friendsRequest = NetworkRequest(urlTemplate:
         "https://api.vk.com/method/friends.get?fields=nickname,photo_50&access_token={token}&v=5.199", dataType: FriendsDataModel.self)
     
@@ -21,7 +29,19 @@ final class NetworkService {
     
     static var photosRequest = NetworkRequest(urlTemplate: "https://api.vk.com/method/photos.getAll?owner_id={userid}&access_token={token}&v=5.199", dataType: PhotosDataModel.self)
     
-    func getData(request:NetworkRequest) {
+    
+    func returnNetworkRequest(request: Requests) -> NetworkRequest {
+        switch request {
+        case .friends: return NetworkService.friendsRequest
+        case .groups: return NetworkService.groupsRequest
+        case .photos: return NetworkService.photosRequest
+        }
+    }
+    
+    
+    func getData(request:Requests) {
+        
+        let request = returnNetworkRequest(request: request)
         
         guard let url = request.generateUrl(token: NetworkService.token, userID: NetworkService.userID) as URL? else {
             print("Error while generating URL")
