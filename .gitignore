@@ -403,3 +403,5 @@ FodyWeavers.xsd
 *.vscode
 *.DS_Store
 *.pdf
+
+AppCode.swift
