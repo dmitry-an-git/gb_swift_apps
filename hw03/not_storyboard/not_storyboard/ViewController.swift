@@ -26,15 +26,23 @@ final class ViewController: UIViewController {
         loadObjects()
         
         //  !!!  AppCode.swift file is hidden from the git
-        let url = URL(string: "https://oauth.vk.com/authorize?client_id=" + AppCode.appCode + "&redirect_url=https://oauth.vk.com/blank.html&scope=262150&display=mobile&response_type=token")
-        webView.load(URLRequest(url: url!))
+        guard let url = URL(string: "https://oauth.vk.com/authorize?client_id=" + AppCode.appCode + "&redirect_url=https://oauth.vk.com/blank.html&scope=262150&display=mobile&response_type=token") else {
+            return
+        }
+        webView.load(URLRequest(url: url))
     }
 }
 
 
 extension ViewController {
     func goToTabView() {
-        navigationController?.pushViewController(TabBarFunc.run(), animated: true)
+        //navigationController?.pushViewController(TabBarFunc.run(), animated: true)
+        
+        let tabBarController = TabBarFunc.run()
+        tabBarController.modalPresentationStyle = .fullScreen
+        let navigationController = UINavigationController(rootViewController: tabBarController)
+        self.addChild(navigationController)
+        view.addSubview(navigationController.view)
     }
 }
 

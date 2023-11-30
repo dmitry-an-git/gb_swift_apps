@@ -17,7 +17,7 @@ struct GroupsDataModel: Decodable {
             let name: String
             let photo: String
             
-            enum CodingKeys: String, CodingKey {
+            enum CodingKeys:/ String, CodingKey {
                 case name
                 case photo = "photo_50"
             }
