@@ -11,8 +11,10 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationLink("NextView", destination: { NextView()
-        })
+        NavigationView{
+            NavigationLink("NextView", destination: { NextView()
+            })
+        }
         .navigationTitle("First Screen")
     }
 }
