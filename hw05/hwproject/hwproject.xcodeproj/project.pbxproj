@@ -13,6 +13,10 @@
 		62D78B982B1C34CE00B6B5E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62D78B972B1C34CE00B6B5E5 /* Preview Assets.xcassets */; };
 		62D78B9F2B1C37A400B6B5E5 /* NewsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D78B9E2B1C37A400B6B5E5 /* NewsDataModel.swift */; };
 		62D78BA12B1C384000B6B5E5 /* NewsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D78BA02B1C384000B6B5E5 /* NewsFetcher.swift */; };
+		62D78BBE2B1DAD0800B6B5E5 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 62D78BBC2B1DAD0800B6B5E5 /* DataModel.xcdatamodeld */; };
+		62D78BC12B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D78BBF2B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataClass.swift */; };
+		62D78BC22B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D78BC02B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataProperties.swift */; };
+		62D78BC52B1DAF6100B6B5E5 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D78BC42B1DAF6100B6B5E5 /* FileCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +27,10 @@
 		62D78B972B1C34CE00B6B5E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		62D78B9E2B1C37A400B6B5E5 /* NewsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDataModel.swift; sourceTree = "<group>"; };
 		62D78BA02B1C384000B6B5E5 /* NewsFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFetcher.swift; sourceTree = "<group>"; };
+		62D78BBD2B1DAD0800B6B5E5 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		62D78BBF2B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewsDataModelTest+CoreDataClass.swift"; sourceTree = "<group>"; };
+		62D78BC02B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewsDataModelTest+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		62D78BC42B1DAF6100B6B5E5 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +67,10 @@
 				62D78B922B1C34CC00B6B5E5 /* ContentView.swift */,
 				62D78B9E2B1C37A400B6B5E5 /* NewsDataModel.swift */,
 				62D78BA02B1C384000B6B5E5 /* NewsFetcher.swift */,
+				62D78BC42B1DAF6100B6B5E5 /* FileCache.swift */,
 				62D78B942B1C34CE00B6B5E5 /* Assets.xcassets */,
+				62D78BBC2B1DAD0800B6B5E5 /* DataModel.xcdatamodeld */,
+				62D78BC32B1DAE7C00B6B5E5 /* NewsDataModelTest */,
 				62D78B962B1C34CE00B6B5E5 /* Preview Content */,
 			);
 			path = hwproject;
@@ -71,6 +82,15 @@
 				62D78B972B1C34CE00B6B5E5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		62D78BC32B1DAE7C00B6B5E5 /* NewsDataModelTest */ = {
+			isa = PBXGroup;
+			children = (
+				62D78BBF2B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataClass.swift */,
+				62D78BC02B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataProperties.swift */,
+			);
+			path = NewsDataModelTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,9 +163,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62D78BC12B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataClass.swift in Sources */,
 				62D78B932B1C34CC00B6B5E5 /* ContentView.swift in Sources */,
+				62D78BBE2B1DAD0800B6B5E5 /* DataModel.xcdatamodeld in Sources */,
+				62D78BC22B1DAE1900B6B5E5 /* NewsDataModelTest+CoreDataProperties.swift in Sources */,
 				62D78B912B1C34CC00B6B5E5 /* hwprojectApp.swift in Sources */,
 				62D78BA12B1C384000B6B5E5 /* NewsFetcher.swift in Sources */,
+				62D78BC52B1DAF6100B6B5E5 /* FileCache.swift in Sources */,
 				62D78B9F2B1C37A400B6B5E5 /* NewsDataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,6 +376,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		62D78BBC2B1DAD0800B6B5E5 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				62D78BBD2B1DAD0800B6B5E5 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 62D78BBD2B1DAD0800B6B5E5 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 62D78B852B1C34CC00B6B5E5 /* Project object */;
 }
