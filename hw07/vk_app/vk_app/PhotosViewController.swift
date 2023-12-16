@@ -10,7 +10,16 @@ import UIKit
 final class PhotosViewController: UICollectionViewController {
     
     private var data = [PhotosDataModel.Response.Photo]()
-    private var networkService = NetworkService()
+    private var networkService: NetworkServiceProtocol
+    
+    init(networkService: NetworkServiceProtocol, collectionViewLayout: UICollectionViewLayout) {
+        self.networkService = networkService
+        super.init(collectionViewLayout: collectionViewLayout)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +33,9 @@ final class PhotosViewController: UICollectionViewController {
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.minimumLineSpacing = 10
         
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.currentTheme.fontColor]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CurrentTheme.currentTheme.fontColor]
         
-        view.backgroundColor = Theme.currentTheme.backgroundColor
+        view.backgroundColor = CurrentTheme.currentTheme.backgroundColor
         setConstraints()
         
         collectionView.register(
@@ -40,10 +49,9 @@ final class PhotosViewController: UICollectionViewController {
                 guard let photos = photos as? PhotosDataModel else { return }
                 self?.data = photos.response.items
                 DispatchQueue.main.async {
-                    //print(self?.data)
                     self?.collectionView.reloadData()
                 }
-            case .failure(_):
+            case .failure:
                 print("Error while loading photos")
                 
             }
@@ -54,11 +62,11 @@ final class PhotosViewController: UICollectionViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         collectionView.reloadData()
-        view.backgroundColor = Theme.currentTheme.backgroundColor
+        view.backgroundColor = CurrentTheme.currentTheme.backgroundColor
         setConstraints()
-        collectionView.backgroundColor = Theme.currentTheme.backgroundColor
+        collectionView.backgroundColor = CurrentTheme.currentTheme.backgroundColor
         setConstraints()
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.currentTheme.fontColor]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CurrentTheme.currentTheme.fontColor]
     }
     
     private func setConstraints() {
@@ -70,7 +78,6 @@ final class PhotosViewController: UICollectionViewController {
             collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10)
         ])
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
@@ -93,8 +100,4 @@ final class PhotosViewController: UICollectionViewController {
         }
         return collectionViewCell
     }
-}
-
-#Preview {
-    PhotosViewController(collectionViewLayout: UICollectionViewFlowLayout())
 }

@@ -7,17 +7,35 @@
 
 import UIKit
 
-final class FriendsViewController: UITableViewController {
+protocol ViewControllerProtocol: AnyObject {
+    func askInteractorForData()
+    func loadDataFromPresenter(data: [FriendsDataModel.Response.Friend])
+    func endRefreshing()
+    func showAlert(date: String)
+    func notifyInteractorOnFirstLoad()
+}
+
+final class FriendsViewController: UITableViewController, ProfileViewDelegate, ViewControllerProtocol {
     
-    private var data = [FriendsDataModel.Response.Friend]()
-    private var networkService = NetworkService()
-    private var fileCache = FileCache()
-    private var profileViewController = ProfileViewController(isOwner: true)
+    private var interactor: InteractorProtocol
+    private var data: [FriendsDataModel.Response.Friend] = []
+    private var profileViewController: ProfileViewControllerProtocol
+    
+    init(interactor: InteractorProtocol) {
+        self.interactor = interactor
+        self.profileViewController = ProfileViewController(isOwner: true)
+        super.init(nibName: nil, bundle: nil)
+        profileViewController.setDelegate(delegate: self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Friends"
-        tableView.backgroundColor = Theme.currentTheme.backgroundColor
+        tableView.backgroundColor = CurrentTheme.currentTheme.backgroundColor
         tableView.register(
             CustomCellFriends.self,
             forCellReuseIdentifier: CustomCellFriends.identifier
@@ -33,19 +51,18 @@ final class FriendsViewController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(
             self,
-            action: #selector(updateData),
+            action: #selector(askInteractorForData),
             for: .valueChanged
         )
         
-        profileViewController.delegate = self
-        updateData()
+        notifyInteractorOnFirstLoad()
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Theme.currentTheme.fontColor]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CurrentTheme.currentTheme.fontColor]
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,18 +76,18 @@ final class FriendsViewController: UITableViewController {
         
         cell.configure(datapoint: data[indexPath.row])
         
-        cell.tap = {[weak self] name, photo in
+        cell.tap = {[weak self] name, photoHQUrl in
+            print(name)
+            print(photoHQUrl)
             self?.navigationController?.pushViewController(
                 ProfileViewController(
                     name: name,
-                    photo: photo,
-                    isOwner: false),
+                    photoHQUrl: photoHQUrl),
                 animated: true)
         }
+        
         return cell
     }
-    
-    
 }
 
 extension FriendsViewController {
@@ -83,14 +100,12 @@ extension FriendsViewController {
         animation.type = .fade
         
         self.navigationController?.view.layer.add(animation, forKey: nil)
-        
-//        let newViewController = UserProfileViewController()
-        
+           
         navigationController?.pushViewController(profileViewController, animated: false)
     }
     
-    func showAlert() {
-        let date: String = fileCache.fetchFriendsDate()
+    func showAlert(date: String) {
+
         let alert = UIAlertController(
             title: "Error while loading the data",
             message: "The cached data is as of \(date)",
@@ -103,34 +118,35 @@ extension FriendsViewController {
                 handler: nil
             )
         )
-        present(alert, animated: true, completion: nil)
-    }
-    
-    @objc func updateData() {
-        networkService.getData(request: .friends) { [weak self] result in
-            switch result {
-            case .success(let friends):
-                guard let friends = friends as? FriendsDataModel else { return }
-                self?.data = friends.response.items
-                self?.fileCache.addFriends(friends: friends.response.items)
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            case .failure(_):
-                self?.data = self?.fileCache.fetchAllFriends() ?? []
-                DispatchQueue.main.async {
-                    self?.showAlert()
-                    self?.tableView.reloadData()
-                }
-            }
-            DispatchQueue.main.async {
-                self?.refreshControl?.endRefreshing()
-            }
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
-}
-
-#Preview {
-    FriendsViewController()
+    func loadDataFromPresenter(data: [FriendsDataModel.Response.Friend]) {
+        self.data = data
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func notifyInteractorOnFirstLoad() {
+        interactor.firstLoadConfigure()
+    }
+    
+    @objc func askInteractorForData() {
+        interactor.updateData()
+    }
+    
+    func endRefreshing() {
+        DispatchQueue.main.async {
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    func updateTheme() {
+        tableView.backgroundColor = CurrentTheme.currentTheme.backgroundColor
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: CurrentTheme.currentTheme.fontColor]
+    }
+    
 }
